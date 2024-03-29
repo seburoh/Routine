@@ -5,6 +5,7 @@ init python:
     import os
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
+    dayCount = 1
     eveningEvents = [
         ["play HeckDiving 2 with friends", "HD2"],
         ["watch a lets play of Last of Them part II", "LoU2"],
@@ -23,8 +24,6 @@ init python:
 
 # The game starts here.
 label start:
-    # scene bg room
-    # show eileen happy
     scene black
 
     seb "Hi."
@@ -115,7 +114,6 @@ label workDay:
 
 label eveningChoice:
     scene bg bed with None
-    # scene homelife
     python:
         choices = [renpy.random.randint(0, eventCount)]
         
@@ -130,7 +128,7 @@ label eveningChoice:
         choices.append(ran)
 
     mc """
-    Man I'm fried.
+    Man I'm fried, time to kick back and relax.
     """
 
     $ narrator("Choose your fate my dude", interact=False)
@@ -138,13 +136,10 @@ label eveningChoice:
         (eveningEvents[choices[0]][0], choices[0]),
         (eveningEvents[choices[1]][0], choices[1]),
         (eveningEvents[choices[2]][0], choices[2]),
-        ("winrar", -1)
+        ("schedule some time with a career advisor", -1)
     ])
 
     if result == -1:
-        seb """
-            Just use 7zip what are you doing.
-            """
         jump winrar
     else:
         $ renpy.jump(("eve" + eveningEvents[result][1]))
@@ -162,22 +157,30 @@ label night:
     # scene black
     # $ renpy.pause(0.05, hard=True)
     #cut to bed, jump cut to workday
+    $ day += 1
     jump workDay
 
+#Evening activities
+
 label eveYuYu:
-    mc "Man his spirit gun is awesome!"
-    mc "He's so lucky to be in an anime where anything can happen"
+    mc "Man Yoyoske is so cool."
+    mc "He's so lucky to be in an anime where anything can happen, how am I supposed to ever compete with that?"
     $ happiness += 21
     jump night
 
 label eveHD2:
-    mc "Those bugs never knew what hit them!"
-    $ happiness += 20
+    mc "Those bugs never knew what hit them! For Super Earth!"
+    "Bowfinger" "FOR SUPER EARTH"
+    mc "Heck yeah man! You down for another game?"
+    "Bowfinger" "Nah I gotta jet, gotta prep for a meeting tomorrow."
+    mc "Alright man, you have a good one."
+    "You continued to play for another few hours, many bugs died."
+    $ happiness += 10
     jump night
 
 label eveLoU2:
-    mc "The visuals look so much better than the narrative is."
-    mc "Kinda meh."
+    mc "This game looks so amazing, but I don't get this plot at all. Didn't Ell-E learn the lesson already that revenge is bad?"
+    mc "Why can't she learn from her past mistakes and just take a step forward in the right direction?"
     $ happiness += 3
     jump night
 
@@ -237,21 +240,56 @@ label eveReflect:
     jump winrar
     jump night
     
-
-
-
-
-
-
-
+#End
 
 label winrar:
     seb """
-    Now you're a hero. You've beat the whole damn game.
+    Oh, hello again [mcName]!
     """
     seb """
-    We're happy you've made it, but how are you going to spend the rest of this day? 
-    Maybe watch a video, maybe press refresh and start again.
+    How'd it go? Did you have a little fun? How many days did it take you to reach this point?
+    """
+    if day == 1:
+        seb """
+        Wow first day? You are full of agency, nice! Maybe you're a person who's already reached
+        their goals? Or just good at having their dream in mind? You didn't get stuck in the
+        routine at all, I wonder if I should feel bad about spending so much time on writing
+        so many silly little diversions now.
+        """
+    else:
+        seb """
+        Day [dayCount]? Interesting. I didn't program in a way to react to that number much,
+        but I'm sure it's impressive in some way.
+        """
+    seb """
+    Regardless of how many days it took you to reach the end, what matters is you made it here.
+    You took the first step.
+    """
+    seb """
+    This game is for anybody who's stuck in a loop, a routine they feel trapped in. Stuck at some job
+    they hate each day, spending each evening just trying to recharge those batteries to deal with
+    the job another day.
+    """
+    seb """
+    I've been there, as have many. And the only thing I want to say, is you're better than you
+    think you are. If you truly want it, you can land a job you actually appreciate it.
+    """
+    seb """
+    There's nothing wrong with having fun and unwinding after a rough day. But never let yourself
+    get stuck in a viscious cycle, a routine you can't escape. All you need to do, is take it one
+    step at a time, keep moving towards your dreams. You can be a great [dreamJob] if you put your
+    mind to it.
+    """
+    seb """
+    So get out there, play some games, watch some movies, whatever makes you happy. But always be
+    taking steps towards where you want to be. Don't just doomscroll on Instabook, liking any post
+    that says how to be happy. Actually go, become the person you want to be.
+    """
+    seb """
+    So, now that this game was perhaps even shorter than you expected it to be, what are you going
+    to do with all that free time?
+
+    Go, be awesome.
     """
 
 
