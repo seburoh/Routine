@@ -6,27 +6,26 @@ init python:
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
     eveningEvents = [
-        ["Play HeckDiving 2 with friends", "HD2"],
-        ["Watch a lets play of Last of Them Part II", "LoU2"],
-        ["Watch YoYo Hakusho", "YuYu"],
-        ["Watch One Piece", "1P"]
+        ["play HeckDiving 2 with friends", "HD2"],
+        ["watch a lets play of Last of Them part II", "LoU2"],
+        ["watch YoYo Hakusho", "YuYu"],
+        ["watch One Piece", "1P"],
+        ["reflect on your actions and do something new", "Reflect"],
+        ["go 2 the gym and get ripped", "Gym"],
+        ["date people", "Date"],
+        ["browse the cool net", "Net"],
+        ["play games", "Game"],
+        ["sleep", "Sleep"],
+        ["hang with the homies", "Friends"]
     ]
     eventCount = len(eveningEvents) - 1
 
-screen happy_overlay:
-    text("Happiness: " + str(happiness))
-    # text("{=date_s}Happiness: " + str(happiness)) + "{/=date_s}"
-
-# style date_s is text:
-    # color "#657CD5"
-    # size 108
-style text:
-    outlines [ (3, "#000", 0, 0) ] # a shadow
 
 # The game starts here.
 label start:
-    scene bg room
-    show eileen happy
+    # scene bg room
+    # show eileen happy
+    scene black
 
     seb "Hi."
 
@@ -117,7 +116,7 @@ label workDay:
 label eveningChoice:
 
     scene bg bed with None
-    scene homelife
+    # scene homelife
     $ choices = [renpy.random.randint(0, eventCount), 
                 renpy.random.randint(0, eventCount), 
                 renpy.random.randint(0, eventCount)]
@@ -134,50 +133,6 @@ label eveningChoice:
         ("winrar", -1)
     ])
 
-    #     "hang with the homies":
-    #         scene bg friends
-    #         seb "yeahhh buddy"
-    #         seb "yum yum beer fun fun times"
-    #         $ happiness += 10
-    #     "sleep":
-    #         scene bg bed
-    #         seb "zzz good nap"
-    #         $ happiness += 10
-    #     "play games":
-    #         scene bg game
-    #         seb "you went up 100 levels."
-    #         seb "sick gains!!!"
-    #         $ happiness += 15
-    #     "browse the cool net":
-    #         scene bg net
-    #         seb "what a cool net."
-    #         $ happiness += 15
-    #     "go 2 the gym and get ripped":
-    #         scene bg gym
-    #         seb "your ligaments tore."
-    #         seb "sick gains!!!"
-    #         $ happiness += 15
-    #     "date people":
-    #         scene bg date
-    #         seb "so, drop-dead gorgeous mommy daddy,"
-    #         seb "what do u do for a living"
-    #         "they don't wait for a response and smoochies smooch you"
-    #         $ happiness += 15
-    #     "reflect on your actions and do something new":
-    #         scene bg grad
-    #         $ happiness += 100
-    #         seb "Just use 7zip what are you doing."
-    #         jump winrar
-    # "You gained some happy points!"
-    # window hide
-    # # scene black
-    # # $ renpy.pause(0.1, hard=True)
-    # scene bg bed
-    # $ renpy.pause(0.8, hard=True)
-    # # scene black
-    # # $ renpy.pause(0.05, hard=True)
-    # #cut to bed, jump cut to workday
-
     if result == -1:
         seb """
             Just use 7zip what are you doing.
@@ -189,22 +144,34 @@ label eveningChoice:
     #failsafe
     jump workDay
 
+label night:
+    "You gained some happy points!"
+    window hide
+    # scene black
+    # $ renpy.pause(0.1, hard=True)
+    scene bg bed
+    $ renpy.pause(0.8, hard=True)
+    # scene black
+    # $ renpy.pause(0.05, hard=True)
+    #cut to bed, jump cut to workday
+    jump workDay
+
 label eveYuYu:
     mc "Man his spirit gun is awesome!"
     mc "He's so lucky to be in an anime where anything can happen"
     $ happiness += 21
-    jump workDay
+    jump night
 
 label eveHD2:
     mc "Those bugs never knew what hit them!"
     $ happiness += 20
-    jump workDay
+    jump night
 
 label eveLoU2:
     mc "The visuals look so much better than the narrative is."
     mc "Kinda meh."
     $ happiness += 3
-    jump workDay
+    jump night
 
 label eve1P:
     mc "Luffy stretch long"
@@ -212,7 +179,63 @@ label eve1P:
     mc "Luffy stretch longest"
     mc "HOW LONG IS THIS"
     $ happiness += 798
-    jump workDay
+    jump night
+
+label eveFriends:
+    scene bg friends
+    seb "yeahhh buddy"
+    seb "yum yum beer fun fun times"
+    $ happiness += 10
+    jump night
+
+label eveSleep:
+    scene bg bed
+    seb "zzz good nap"
+    $ happiness += 10
+    jump night
+
+label eveGame:
+    scene bg game
+    seb "you went up 100 levels."
+    seb "sick gains!!!"
+    $ happiness += 15
+    jump night
+
+label eveDate:
+    scene bg date
+    seb "so, drop-dead gorgeous mommy daddy,"
+    seb "what do u do for a living"
+    "they don't wait for a response and smoochies smooch you"
+    $ happiness += 15
+    jump night
+
+label eveGym:
+    scene bg gym
+    seb "your ligaments tore."
+    seb "sick gains!!!"
+    $ happiness += 15
+    jump night
+
+label eveNet:
+    scene bg net
+    seb "what a cool net."
+    $ happiness += 15
+    jump night
+
+label eveReflect:
+    scene bg grad
+    $ happiness += 100
+    seb "Just use 7zip what are you doing."
+    jump winrar
+    jump night
+    
+
+
+
+
+
+
+
 
 label winrar:
     seb """

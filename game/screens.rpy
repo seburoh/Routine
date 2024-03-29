@@ -15,11 +15,17 @@ init offset = -1
 #     linear 2.0 rotate 360   # <- 2.0 is the number of seconds, set it as you need
 #     repeat
 
-
+screen happy_overlay:
+    text("Happiness: " + str(happiness))
 
 ################################################################################
 ## Styles
 ################################################################################
+
+style text:
+    outlines [ (3, "#000", 0, 0) ] # a shadow
+    # color "#657CD5"
+    # size 108
 
 style default:
     properties gui.text_properties()
