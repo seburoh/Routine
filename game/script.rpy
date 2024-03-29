@@ -5,7 +5,12 @@ init python:
     import os
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
-
+    eveningEvents = [
+    ["Play HeckDiving 2 with friends", "Those bugs never knew what hit them!", 20],
+    ["Watch a lets play of Last of Them Part II", "The visuals look so much better than the narrative is. Kinda meh.", 3],
+    ["Watch YoYo Hakusho", "Man his spirit gun is awesome!", "He's so lucky to be in an anime where anything can happen", 21],
+    ["Watch One Piece", "Luffy stretch long", "Luffy stretch longer", "Luffy stretch longest", "Just how many episodes?", 798]
+    ]
 screen happy_overlay:
     text("Happiness: " + str(happiness))
 
@@ -91,29 +96,31 @@ label workDay:
 label eveningChoice:
 
     scene homelife
+    $ choices = [renpy.random.randint(0, len(eveningEvents) - 1), 
+                renpy.random.randint(0, len(eveningEvents) - 1), 
+                renpy.random.randint(0, len(eveningEvents) - 1)]
 
     mc """
     Man I'm fried.
     """
 
-    menu:
-        "Choose your fate my dude"
+    $ narrator("Choose your fate my dude", interact=False)
+    $ result = renpy.display_menu([ (eveningEvents[choices[0]][0], choices[0]), 
+        (eveningEvents[choices[1]][0], choices[1]), 
+        (eveningEvents[choices[2]][0], choices[2]),
+        ("winrar", -1)])
 
-        "It is wednesday":
-            seb """
-            Don't lie to me.
-            """
-            $ happiness += 10
-        "My dude":
-            seb """
-            My duuuuude.
-            """
-            $ happiness += 15
-        "winrar":
-            seb """
+    if result == -1:
+        seb """
             Just use 7zip what are you doing.
             """
-            jump winrar
+        jump winrar
+    else:
+        python:
+            theEvent = eveningEvents[choices[result]]
+            for i in theEvent[1:-1]:
+                renpy.say(mc, i)
+            happiness += theEvent[-1]
 
     jump workDay
 
