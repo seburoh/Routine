@@ -114,12 +114,20 @@ label workDay:
     jump eveningChoice
 
 label eveningChoice:
-
     scene bg bed with None
     # scene homelife
-    $ choices = [renpy.random.randint(0, eventCount), 
-                renpy.random.randint(0, eventCount), 
-                renpy.random.randint(0, eventCount)]
+    python:
+        choices = [renpy.random.randint(0, eventCount)]
+        
+        ran = renpy.random.randint(0, eventCount)
+        while ran == choices[0]:
+            ran = renpy.random.randint(0, eventCount)
+        choices.append(ran)
+
+        ran = renpy.random.randint(0, eventCount)
+        while ran == choices[0] or ran == choices[1]:
+            ran = renpy.random.randint(0, eventCount)
+        choices.append(ran)
 
     mc """
     Man I'm fried.
@@ -183,49 +191,49 @@ label eve1P:
 
 label eveFriends:
     scene bg friends
-    seb "yeahhh buddy"
-    seb "yum yum beer fun fun times"
+    mc "yeahhh buddy"
+    mc "yum yum beer fun fun times"
     $ happiness += 10
     jump night
 
 label eveSleep:
     scene bg bed
-    seb "zzz good nap"
+    mc "zzz good nap"
     $ happiness += 10
     jump night
 
 label eveGame:
     scene bg game
-    seb "you went up 100 levels."
-    seb "sick gains!!!"
+    mc "you went up 100 levels."
+    mc "sick gains!!!"
     $ happiness += 15
     jump night
 
 label eveDate:
     scene bg date
-    seb "so, drop-dead gorgeous mommy daddy,"
-    seb "what do u do for a living"
+    mc "so, drop-dead gorgeous mommy daddy,"
+    mc "what do u do for a living"
     "they don't wait for a response and smoochies smooch you"
     $ happiness += 15
     jump night
 
 label eveGym:
     scene bg gym
-    seb "your ligaments tore."
-    seb "sick gains!!!"
+    mc "your ligaments tore."
+    mc "sick gains!!!"
     $ happiness += 15
     jump night
 
 label eveNet:
     scene bg net
-    seb "what a cool net."
+    mc "what a cool net."
     $ happiness += 15
     jump night
 
 label eveReflect:
     scene bg grad
     $ happiness += 100
-    seb "Just use 7zip what are you doing."
+    mc "Just use 7zip what are you doing."
     jump winrar
     jump night
     
