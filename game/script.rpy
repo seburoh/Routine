@@ -1,5 +1,5 @@
 ﻿define mc = DynamicCharacter("mcName")
-define seb = Character("seburoh")
+define seb = Character("seb")
 
 init python:
     import os
@@ -20,6 +20,13 @@ init python:
         ["hang with the homies", "Friends"]
     ]
     eventCount = len(eveningEvents) - 1
+
+    dayEvents = [
+        "Skyrim",
+        "Raise",
+        "Turkey"
+    ]
+    dayEventsLen = len(dayEvents) - 1
 
 
 # The game starts here.
@@ -91,25 +98,13 @@ label start:
     seb "Pokemon reference gooooo."
     show screen happy_overlay
 
-    jump workDay
+    jump daySkyrim
 
 label workDay:
-    window show
-    scene bg wcdonalds
-    show skyrim:
-        zoom 0.4 xalign 0.8 yalign 0.5
-    "Rolof" "Hey you, you're finally awake."
-    hide skyrim 
-    show skyrim
-    "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
-    hide skyrim
-    show skyrim:
-        zoom 2.0 xalign 0.5 yalign 0.5
-    "Rolof" "WHERE IS YOUR MANAGER." with vpunch
+    $ choice = renpy.random.randint(0, dayEventsLen)
+    $ renpy.jump(("day" + dayEvents[choice]))
 
-    $ happiness -= 20
-    $ happiness = max(happiness, 0)
-
+    #failsafe
     jump eveningChoice
 
 label eveningChoice:
@@ -157,8 +152,45 @@ label night:
     # scene black
     # $ renpy.pause(0.05, hard=True)
     #cut to bed, jump cut to workday
-    $ day += 1
+    $ dayCount += 1
     jump workDay
+
+# Day activities
+
+label daySkyrim:
+    window show
+    scene bg wcdonalds
+    show skyrim:
+        zoom 0.4 xalign 0.8 yalign 0.5
+    "Rolof" "Hey you, you're finally awake."
+    hide skyrim 
+    show skyrim
+    "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
+    hide skyrim
+    show skyrim:
+        zoom 2.0 xalign 0.5 yalign 0.5
+    "Rolof" "WHERE IS YOUR MANAGER." with vpunch
+
+    $ happiness -= 20
+    $ happiness = max(happiness, 0)
+
+    jump eveningChoice
+
+label dayRaise:
+    "Manager" "Thank you all for attending this meeting, we are so excited to share all the new benefits with you!"
+    "The meeting goes on for what feels like an age, with promises from the corporation you've heard many times before."
+    "Each time, none of the benefits come through, all that comes through is more work."
+    $ happiness -= 10
+    jump eveningChoice
+
+label dayTurkey:
+    "You get to work Thanksgiving again, Black Friday is always such a pain."
+    "Customer" "Wow, you have to work on Thanksgiving? That sucks! Why do you even need to work today?"
+    mc "It's busy"
+    "Customer" "Wow true! Hey, do you have the doorbuster TV still in stock?"
+    "Screams internally."
+    $ happiness -= 25
+    jump eveningChoice
 
 #Evening activities
 
@@ -249,7 +281,7 @@ label winrar:
     seb """
     How'd it go? Did you have a little fun? How many days did it take you to reach this point?
     """
-    if day == 1:
+    if dayCount == 1:
         seb """
         Wow first day? You are full of agency, nice! Maybe you're a person who's already reached
         their goals? Or just good at having their dream in mind? You didn't get stuck in the
@@ -263,7 +295,7 @@ label winrar:
         """
     seb """
     Regardless of how many days it took you to reach the end, what matters is you made it here.
-    You took the first step.
+    You took the first step. And that's the hard part, just taking the first step.
     """
     seb """
     This game is for anybody who's stuck in a loop, a routine they feel trapped in. Stuck at some job
