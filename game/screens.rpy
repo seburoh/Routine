@@ -4,6 +4,18 @@
 
 init offset = -1
 
+# screen loopimage:
+#     image loopimage 
+#     transform spinny
+
+# transform spinny:
+#     xcenter 0.5
+#     ycenter 0.5
+#     rotate 0
+#     linear 2.0 rotate 360   # <- 2.0 is the number of seconds, set it as you need
+#     repeat
+
+
 
 ################################################################################
 ## Styles

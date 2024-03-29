@@ -6,7 +6,7 @@ init python:
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
     eveningEvents = [
-    ["Play HeckDiving 2 with friends", "Those bugs never knew what hit them!", 20],
+    ["Play HeckDiving 2 with friends", "Those bugs never knew what hit them!", 20], #replace with a label, keep menu choice
     ["Watch a lets play of Last of Them Part II", "The visuals look so much better than the narrative is. Kinda meh.", 3],
     ["Watch YoYo Hakusho", "Man his spirit gun is awesome!", "He's so lucky to be in an anime where anything can happen", 21],
     ["Watch One Piece", "Luffy stretch long", "Luffy stretch longer", "Luffy stretch longest", "Just how many episodes?", 798]
