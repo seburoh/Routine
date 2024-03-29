@@ -104,6 +104,7 @@ label start:
     jump daySkyrim
 
 label workDay:
+    scene black
     $ choice = renpy.random.randint(0, dayEventsLen)
     $ renpy.jump(("day" + dayEvents[choice]))
 
@@ -310,15 +311,19 @@ label winrar:
     think you are. If you truly want it, you can land a job you actually appreciate it.
     """
     seb """
-    There's nothing wrong with having fun and unwinding after a rough day. But never let yourself
-    get stuck in a viscious cycle, a routine you can't escape. All you need to do, is take it one
-    step at a time, keep moving towards your dreams. You can be a great [dreamJob] if you put your
-    mind to it.
+    Never let yourself get stuck a routine you can't escape.
+    """
+    seb """
+    All you need to do, is take it one step at a time, keep moving towards your dreams.
+    You can be a great [dreamJob] if you put your mind to it.
     """
     seb """
     So get out there, play some games, watch some movies, whatever makes you happy. But always be
-    taking steps towards where you want to be. Don't just doomscroll on Instabook, liking any post
-    that says how to be happy. Actually go, become the person you want to be.
+    taking steps towards where you want to be.
+    """
+    seb """
+    Don't just doomscroll on Instabook, liking any post that says how to be happy.
+    Actually go, become the person you want to be.
     """
     seb """
     So, now that this game was perhaps even shorter than you expected it to be, what are you going
