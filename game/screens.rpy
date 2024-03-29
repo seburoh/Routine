@@ -4,16 +4,21 @@
 
 init offset = -1
 
-# screen loopimage:
-#     image loopimage 
-#     transform spinny
+image loopspin:
+    "loopimage.png"
+    # zoom 0.65
+    xalign 0.5
+    yalign 0.5
+    rotate 0
+    linear 20.0 rotate 360 
+    repeat   
 
-# transform spinny:
-#     xcenter 0.5
-#     ycenter 0.5
-#     rotate 0
-#     linear 2.0 rotate 360   # <- 2.0 is the number of seconds, set it as you need
-#     repeat
+transform spinny:
+    xcenter 0.5
+    ycenter 0.5
+    rotate 0
+    linear 2.0 rotate 360   # <- 2.0 is the number of seconds, set it as you need
+    repeat
 
 screen happy_overlay:
     text("Happiness: " + str(happiness))
@@ -267,14 +272,14 @@ screen quick_menu():
             xalign 0.5
             yalign 1.0
 
-            textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
+            textbutton _("<< back") action Rollback()
+            # textbutton _("History") action ShowMenu('history')
+            textbutton _("auto") action Preference("auto-forward", "toggle")
+            # textbutton _("Save") action ShowMenu('save')
+            # textbutton _("Q.Save") action QuickSave()
+            # textbutton _("Q.Load") action QuickLoad()
+            textbutton _("options") action ShowMenu('preferences')
+            textbutton _("skip >>") action Skip() alternate Skip(fast=True, confirm=True)
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
@@ -313,19 +318,19 @@ screen navigation():
 
         spacing gui.navigation_spacing
 
-        if main_menu:
+        # if main_menu:
 
-            textbutton _("Start") action Start()
+        #     textbutton _("Start") action Start()
 
-        else:
+        # else:
 
-            textbutton _("History") action ShowMenu("history")
+        #     textbutton _("History") action ShowMenu("history")
 
-            textbutton _("Save") action ShowMenu("save")
+        #     textbutton _("Save") action ShowMenu("save")
 
-        textbutton _("Load") action ShowMenu("load")
+        # textbutton _("Load") action ShowMenu("load")
 
-        textbutton _("Preferences") action ShowMenu("preferences")
+        textbutton _("Options") action ShowMenu("preferences")
 
         if _in_replay:
 
@@ -337,16 +342,16 @@ screen navigation():
 
         textbutton _("About") action ShowMenu("about")
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+        # if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("Help") action ShowMenu("help")
+            # textbutton _("Help") action ShowMenu("help")
 
-        if renpy.variant("pc"):
+        # if renpy.variant("pc"):
 
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+            # textbutton _("Quit") action Quit(confirm=not main_menu)
 
 
 style navigation_button is gui_button
@@ -371,15 +376,25 @@ screen main_menu():
     ## This ensures that any other menu screen is replaced.
     tag menu
 
-    add gui.main_menu_background
-
+    # add gui.main_menu_background
+    add "loopspin"
     ## This empty frame darkens the main menu.
-    frame:
-        style "main_menu_frame"
+    # frame:
+        # style "main_menu_frame"
 
+
+    hbox:
+        textbutton _("{size=140}start") action Start()
+        # textbutton _("{font=BeerMoney.ttf}{size=140}Start") action [Play("sound", "unclick.ogg"), SetVariable('splashscreenboot', False), Start() ] #at g_trans
+        xalign 0.5
+        yalign 0.5
+    hbox:
+        textbutton _("about") action ShowMenu("about")
+        xalign 1.0
+        yalign 1.0
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
-    use navigation
+    # use navigation
 
     if gui.show_name:
 
@@ -493,7 +508,6 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     textbutton _("Return"):
         style "return_button"
-
         action Return()
 
     label title

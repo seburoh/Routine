@@ -1,5 +1,6 @@
 ﻿define mc = DynamicCharacter("mcName")
 define seb = Character("seburoh")
+define car = Character("carmints")
 
 init python:
     import os
@@ -26,13 +27,15 @@ label start:
     # scene bg room
     # show eileen happy
     scene black
-
+    # scene loopspin
     seb "Hi."
 
     seb """
     My partner and I made this game over the course of three days.
     We wanted to submit to NaNoRenO, but only found the time at the very end of the month.
     """
+    
+    car "uwu"
 
     seb """
     We challenged ourselves to try and create something within the remaining days, finding time
