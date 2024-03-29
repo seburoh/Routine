@@ -6,11 +6,13 @@ init python:
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
     eveningEvents = [
-    ["Play HeckDiving 2 with friends", "Those bugs never knew what hit them!", 20],
-    ["Watch a lets play of Last of Them Part II", "The visuals look so much better than the narrative is. Kinda meh.", 3],
-    ["Watch YoYo Hakusho", "Man his spirit gun is awesome!", "He's so lucky to be in an anime where anything can happen", 21],
-    ["Watch One Piece", "Luffy stretch long", "Luffy stretch longer", "Luffy stretch longest", "Just how many episodes?", 798]
+        ["Play HeckDiving 2 with friends", "HD2"],
+        ["Watch a lets play of Last of Them Part II", "LoU2"],
+        ["Watch YoYo Hakusho", "YuYu"],
+        ["Watch One Piece", "1P"]
     ]
+    eventCount = len(eveningEvents) - 1
+
 screen happy_overlay:
     text("Happiness: " + str(happiness))
 
@@ -94,11 +96,10 @@ label workDay:
     jump eveningChoice
 
 label eveningChoice:
-
     scene homelife
-    $ choices = [renpy.random.randint(0, len(eveningEvents) - 1), 
-                renpy.random.randint(0, len(eveningEvents) - 1), 
-                renpy.random.randint(0, len(eveningEvents) - 1)]
+    $ choices = [renpy.random.randint(0, eventCount), 
+                renpy.random.randint(0, eventCount), 
+                renpy.random.randint(0, eventCount)]
 
     mc """
     Man I'm fried.
@@ -112,19 +113,40 @@ label eveningChoice:
         ("winrar", -1)
     ])
 
-
     if result == -1:
         seb """
             Just use 7zip what are you doing.
             """
         jump winrar
     else:
-        python:
-            theEvent = eveningEvents[result]
-            for i in theEvent[1:-1]:
-                renpy.say(mc, i)
-            happiness += theEvent[-1]
+        $ renpy.jump(("eve" + eveningEvents[result][1]))
 
+    #failsafe
+    jump workDay
+
+label eveYuYu:
+    mc "Man his spirit gun is awesome!"
+    mc "He's so lucky to be in an anime where anything can happen"
+    $ happiness += 21
+    jump workDay
+
+label eveHD2:
+    mc "Those bugs never knew what hit them!"
+    $ happiness += 20
+    jump workDay
+
+label eveLoU2:
+    mc "The visuals look so much better than the narrative is."
+    mc "Kinda meh."
+    $ happiness += 3
+    jump workDay
+
+label eve1P:
+    mc "Luffy stretch long"
+    mc "Luffy stretch longer"
+    mc "Luffy stretch longest"
+    mc "HOW LONG IS THIS"
+    $ happiness += 798
     jump workDay
 
 label winrar:
