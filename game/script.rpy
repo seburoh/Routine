@@ -8,6 +8,13 @@ init python:
 
 screen happy_overlay:
     text("Happiness: " + str(happiness))
+    # text("{=date_s}Happiness: " + str(happiness)) + "{/=date_s}"
+
+# style date_s is text:
+    # color "#657CD5"
+    # size 108
+style text:
+    outlines [ (3, "#000", 0, 0) ] # a shadow
 
 # The game starts here.
 label start:
