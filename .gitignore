@@ -1,5 +1,8 @@
 /.vscode
-*.save
+game/saves/
+game/cache/
 /errors.txt
 /log.txt
 /traceback.txt
+*.rpyc
+*.rpyb

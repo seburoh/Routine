@@ -105,10 +105,13 @@ label eveningChoice:
     """
 
     $ narrator("Choose your fate my dude", interact=False)
-    $ result = renpy.display_menu([ (eveningEvents[choices[0]][0], choices[0]), 
-        (eveningEvents[choices[1]][0], choices[1]), 
+    $ result = renpy.display_menu([
+        (eveningEvents[choices[0]][0], choices[0]),
+        (eveningEvents[choices[1]][0], choices[1]),
         (eveningEvents[choices[2]][0], choices[2]),
-        ("winrar", -1)])
+        ("winrar", -1)
+    ])
+
 
     if result == -1:
         seb """
@@ -117,7 +120,7 @@ label eveningChoice:
         jump winrar
     else:
         python:
-            theEvent = eveningEvents[choices[result]]
+            theEvent = eveningEvents[result]
             for i in theEvent[1:-1]:
                 renpy.say(mc, i)
             happiness += theEvent[-1]
