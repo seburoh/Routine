@@ -1,5 +1,4 @@
-﻿###POINTER###
-define config.mouse = {
+﻿define config.mouse = {
     "default" : [("gui/mouse_default.png", 16, 0)]
     }
 init python:
@@ -20,7 +19,6 @@ init python:
     car = Character("carmints", callback=everyonevoice)
 
     preferences.text_cps = 50  
-    # config.all_character_callbacks = everyonevoice
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
     dayCount = 1
@@ -28,13 +26,14 @@ init python:
         ["play HeckDiving 2 with friends", "HD2"],
         ["watch a lets play of Last of Them part II", "LoU2"],
         ["watch YoYo Hakusho", "YuYu"],
-        ["watch One Piece", "1P"],
+        ["watch One Peace", "1P"],
         ["go 2 the gym and get ripped", "Gym"],
         ["date people", "Date"],
         ["browse the cool net", "Net"],
         ["play games", "Game"],
         ["sleep", "Sleep"],
-        ["hang with the homies", "Friends"]
+        ["hang with the homies", "Friends"],
+        ["play Last Fantasy 14", "FF14"]
     ]
     eventCount = len(eveningEvents) - 1
 
@@ -51,7 +50,16 @@ init python:
         "Clopen",
         "Downsize",
         "Lunch",
-        "Promotion"
+        "Promotion",
+        "Rent",
+        "Plans",
+        "Raid",
+        "Appointment",
+        "Hours",
+        "Quit",
+        "Security",
+        "Turnover",
+        "Bonus"
     ]
     dayEventsLen = len(dayEvents) - 1
 
@@ -170,15 +178,10 @@ label start:
     show wallfixed
     hide wallfixing
     show wallfixed 
-    # $ renpy.pause(3, hard=True)
-    $ show_quick_menu = False
+    $ quick_menu = False
     scene black with Fade(3,0,0)
-    $ show_quick_menu = False
     $ renpy.pause(2, hard=True)
-
-    $ show_quick_menu = False
     show screen happy_overlay
-    $ show_quick_menu = False
     jump daySkyrim
 
 label workDay:
@@ -240,19 +243,115 @@ label eveningChoice:
 label night:
     "You gained some happy points!"
     window hide
-    # scene black
-    # $ renpy.pause(0.1, hard=True)
     stop music
     play sound "pillowhit1.ogg"
     scene bg bed
     $ renpy.pause(0.8, hard=True)
-    # scene black
-    # $ renpy.pause(0.05, hard=True)
-    #cut to bed, jump cut to workday
     $ dayCount += 1
     jump workDay
 
 # Day activities
+
+label dayBonus:
+    "Manager" "Hey guys, I have some bad news."
+    "Manager" "We were on excellent track to get a holiday bonus, the metrics we were giving corporate were above and beyond."
+    "Manager" "But unfortunately corporate decided against giving us any bonus, they moved the numbers needed at the last minute."
+    mc "How is that even allowed?"
+    "Manager" "Well, they're in charge. I know it's not much, but I have some pizza in the back. We'll try again next year!"
+    $ happiness -= 20
+    jump eveningChoice
+
+label dayTurnover:
+    "Coworker" "Hey [mcName] why do you never remember people's names?"
+    mc "Too many coworkers come and go, I tend to only remember the ones who stick around."
+    "Coworker" "Wow, just how long have you been here to have seen that much turnover?"
+    mc "...too long, I guess."
+    $ happiness -= 5
+    jump eveningChoice
+
+label daySecurity:
+    "Manager" "Per new rules from corporate, front door security can no longer confront shoplifters."
+    "Manager" "There have been incidents where angry shoplifters have pulled guns on security, or threatened legal action."
+    mc "So now, the stuff in the store is all free?"
+    "Manager" "Now now, we all just need to be more vigilant!"
+    $ happiness -= 10
+    jump eveningChoice
+
+label dayQuit:
+    "Walking in to work, there's an argument at the doors."
+    "Coworker" "You know what? Screw this, I'm out."
+    "The coworker walks out of the building."
+    mc "Wait, what just happened?"
+    "Manager" "He didn't agree with the new policies we're putting in place. Speaking of, do you have time to talk?"
+    mc "What is it this time?"
+    "Manager" "Nothing you haven't heard before, you're one of our veterans here after all!"
+    "Why do I even put up with this?"
+    $ happiness -= 15
+    jump eveningChoice
+
+label dayHours:
+    "You notice your hours for the next week look lower."
+    mc "Hey boss, I was wondering if I could pick up extra hours next week to meet rent."
+    "Manager" "Sorry, we only had so many hours to give, and I just didn't think you wanted to be here."
+    mc "But what about my rent?"
+    "Manager" "Could try taking on a second job?"
+    $ happiness -= 20
+    jump eveningChoice
+
+label dayAppointment:
+    "Customer" "Hey I need you to fix my phone."
+    mc "Sure, do you have an appointment with us today?"
+    "Customer" "No, I have a broken phone, fix it."
+    mc "Sorry, but the custmers you see behind you are my appointments for the next hour or so."
+    mc """
+    I'll have to take care of them first, since they scheduled appointments.
+    """
+    mc """
+    If you'd like to wait I can try to fix your phone as soon as there's some available time,
+    but I don't know when an appointment will no show.
+    """
+    "Customer" "What about the time you're spending talking to me now? Huh?"
+    "You gesture behind you."
+    mc "The customer behind me here is patiently waiting for me to continue working with them."
+    "Customer" "Fine, then I'll just leave my phone on the counter, and you can fix it when you're free!"
+    mc "We have a process we have to follow for legal reasons, if you leave your phone here I can't work on it."
+    "Customer" "So? What will you do with it then?"
+    mc "Report it to lost and found, and they discard those items when the shop closes for the night."
+    "Customer" "I'm going to find your manager!"
+    "They storm off"
+    "OtherCustomer" "Man he was a dick, sorry you have to deal with people like them."
+    mc "Thanks. It's all part of the job, now let me finish helping you out."
+    $ happiness -= 5
+    jump eveningChoice
+
+label dayRent:
+    "There's a stack of papers in the breakroom at work. 'How to manage your finances'."
+    mc "Huh, I mean managing money is important."
+    "Coworker" "Oh [mcName], did you notice the best part though?"
+    mc "Huh?"
+    "Coworker" "Look closer at the first section, where you calculate the money you earn."
+    mc "Oh I guess they have a little explanation here...wait, are you serious?"
+    "Coworker" "Yeah it's kind of great"
+    "The form clearly stated at the beginning, that the company knew they were not paying a livable wage."
+    "It then listed options for how to deal with it, by working two jobs or acquiring extra roommates."
+    $ happiness -= 25
+    jump eveningChoice
+
+label dayPlans:
+    "Friendo" "Hey man you down to go to a concert in a couple weeks?"
+    mc "Sorry I can't, dunno if I'll have work."
+    "Friendo" "What do you mean?"
+    mc "I get my work hours for the week on like, the Friday before. So I never really know in advance when I work."
+    "Friendo" "Wow man that kinda sucks."
+    mc "You get used to it I guess."
+    $ happiness -= 10
+    jump eveningChoice
+
+label dayRaid:
+    "Looking at the work schedule for next week, it looks like your hours have changed, there's more closing shifts."
+    mc "Man, I guess I won't be raiding in World of Wowcraft for a while unless I join a group that runs at like 3am."
+    $ happiness -= 25
+    jump eveningChoice
 
 label dayPromotion:
     "Manager" "Hey [mcName] I just want to say you're doing great, so we'd like to put some extra responsibility on you and see how you handle it!"
@@ -304,14 +403,12 @@ label dayClopen:
     jump workDay
 
 label daySkyrim:
-    $ show_quick_menu = False
     scene bg wcdonalds 
-    $ show_quick_menu = False
     show skyrim:
         zoom 0.4 xalign 0.8 yalign 0.5
     with Fade(0,0,2)
     window show
-    $ show_quick_menu = True
+    $ quick_menu = True
     "Rolof" "Hey you, you're finally awake.{fast}"
     hide skyrim 
     show skyrim
@@ -341,13 +438,23 @@ label dayTurkey:
 
 #Evening activities
 
+label eveFF14:
+    scene bg game
+    mc "Time to do dailies in the critically acclaimed MMO Last Fantasy 14"
+    "You spend some time doing daily quests"
+    mc "Feels like I'm making good progress. Always feels nice to make headway towards a goal."
+    $ happiness += 22
+    jump night
+
 label eveYuYu:
-    mc "Man Yoyoske is so cool."
+    scene bg watch
+    mc "Man Yoske is so cool."
     mc "He's so lucky to be in an anime where anything can happen, how am I supposed to ever compete with that?"
     $ happiness += 21
     jump night
 
 label eveHD2:
+    scene bg game
     mc "Those bugs never knew what hit them! For Super Earth!"
     "Bowfinger" "FOR SUPER EARTH"
     mc "Heck yeah man! You down for another game?"
@@ -358,15 +465,17 @@ label eveHD2:
     jump night
 
 label eveLoU2:
+    scene bg watch
     mc "This game looks so amazing, but I don't get this plot at all. Didn't Ell-E learn the lesson already that revenge is bad?"
     mc "Why can't she learn from her past mistakes and just take a step forward in the right direction?"
     $ happiness += 3
     jump night
 
 label eve1P:
-    mc "Luffy stretch long"
-    mc "Luffy stretch longer"
-    mc "Luffy stretch longest"
+    scene bg watch
+    mc "Loffy stretch long"
+    mc "Loffy stretch longer"
+    mc "Loffy stretch longest"
     mc "HOW LONG IS THIS"
     "You finish the entirety of One Piece's >1000 episode series and movies."
     mc "... It wasn't long enough. What am I supposed to do now?"
@@ -460,8 +569,10 @@ label winrar:
         but I'm sure it's impressive in some way.
         """
     seb """
-    This game is for anybody who's stuck in a loop, a routine they feel trapped in. Stuck at some job
-    they hate each day, spending each evening just trying to recharge those batteries to deal with
+    This game is for anybody who's stuck in a loop, a routine they feel trapped in.
+    """
+    seb """
+    Stuck at some job they hate each day, spending each evening just trying to recharge those batteries to deal with
     the job another day.
     """
     seb """
@@ -478,7 +589,8 @@ label winrar:
     seb """
     So, now that this game was perhaps even shorter than you expected it to be, what are you going
     to do with all that free time?
-
+    """
+    seb """
     Go, be awesome.
     """
 
