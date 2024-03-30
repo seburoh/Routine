@@ -12,7 +12,6 @@ init python:
         ["watch a lets play of Last of Them part II", "LoU2"],
         ["watch YoYo Hakusho", "YuYu"],
         ["watch One Piece", "1P"],
-        ["reflect on your actions and do something new", "Reflect"],
         ["go 2 the gym and get ripped", "Gym"],
         ["date people", "Date"],
         ["browse the cool net", "Net"],
@@ -22,10 +21,19 @@ init python:
     ]
     eventCount = len(eveningEvents) - 1
 
+    winEvents = [
+        ["reflect and do something new", "Reflect"],
+        ["schedule some time with a career advisor", "Advise"]
+    ]
+    winCount = len(winEvents) - 1
+
     dayEvents = [
         "Skyrim",
         "Raise",
-        "Turkey"
+        "Turkey",
+        "Clopen",
+        "Downsize",
+        "Lunch"
     ]
     dayEventsLen = len(dayEvents) - 1
 
@@ -74,7 +82,6 @@ label start:
             same, even if just a little.
             """
 
-    #Swap from here on.
     seb """
     I'm getting ahead of myself though, it's nice to meet you, what's your name?
     """
@@ -98,9 +105,51 @@ label start:
         """
         $ dreamJob = renpy.input("Don't let your dreams be memes", length=30).strip()
 
-    seb "Pokemon reference gooooo."
-    show screen happy_overlay
+    seb "A [dreamJob] huh? That sounds pretty cool. I bet you'd be pretty good at it too."
 
+    $ dreamLower = dreamJob.lower()
+    if dreamLower == "vtuber":
+        seb "The next KSon maybe?"
+
+    seb "Well that's enough talking out of me, maybe I'll see you again sometime."
+
+    show wall:
+        ypos 1200
+
+    show wall with move:
+        ypos 800
+
+    seb "Sorry, one minute, need to put up the fourth wall."
+
+    show wall with move:
+        ypos 400
+
+    $ renpy.pause(0.8, hard=True)
+
+    show wall with move:
+        ypos 0
+
+    seb "Much better"
+
+    show wallbroke
+    hide wall
+
+    seb "I know, I know, it's a pretty silly looking wall, but man I tried. What matters is I put in the effort."
+
+    seb "Never be afraid to try something new! You never know what you may find!"
+
+    seb "...oh, I need to fix this wall now, huh."
+
+    show wallfixing
+    hide wallbroke
+
+    $ renpy.pause(0.8, hard=True)
+
+    show wallfixed
+    hide wallfixing
+    show wallfixed with Fade(3,2,0)
+
+    show screen happy_overlay
     jump daySkyrim
 
 label workDay:
@@ -113,6 +162,11 @@ label workDay:
 
 label eveningChoice:
     scene bg bed with None
+
+    mc """
+    Man I'm fried, time to kick back and relax.
+    """
+
     python:
         choices = [renpy.random.randint(0, eventCount)]
         
@@ -126,25 +180,34 @@ label eveningChoice:
             ran = renpy.random.randint(0, eventCount)
         choices.append(ran)
 
-    mc """
-    Man I'm fried, time to kick back and relax.
-    """
+        ran = renpy.random.randint(0, eventCount)
+        while ran == choices[0] or ran == choices[1] or ran == choices[2]:
+            ran = renpy.random.randint(0, eventCount)
+        choices.append(ran)
 
-    $ narrator("Choose your fate my dude", interact=False)
-    $ result = renpy.display_menu([
-        (eveningEvents[choices[0]][0], choices[0]),
-        (eveningEvents[choices[1]][0], choices[1]),
-        (eveningEvents[choices[2]][0], choices[2]),
-        ("schedule some time with a career advisor", -1)
-    ])
+        menuChoices = [
+            (eveningEvents[choices[0]][0], choices[0]),
+            (eveningEvents[choices[1]][0], choices[1]),
+            (eveningEvents[choices[2]][0], choices[2]),
+            (eveningEvents[choices[3]][0], choices[3])
+        ]
 
-    if result == -1:
-        jump winrar
-    else:
-        $ renpy.jump(("eve" + eveningEvents[result][1]))
+        if dayCount > 4:
+            ran = renpy.random.randint(0, winCount)
+            windex = renpy.random.randint(0, 3)
+            menuChoices[windex] = (winEvents[ran][0], (ran * -1) - 1)
+
+        narrator("Choose your fate my dude", interact=False)
+        result = renpy.display_menu(menuChoices)
+
+        if result < 0:
+            result = (result + 1) * -1
+            renpy.jump(("eve" + winEvents[result][1]))
+        else:
+            renpy.jump(("eve" + eveningEvents[result][1]))
 
     #failsafe
-    jump workDay
+    jump night
 
 label night:
     "You gained some happy points!"
@@ -161,9 +224,46 @@ label night:
 
 # Day activities
 
+label dayLunch:
+    "NewGuy" "Hey [mcName] question, when do we take lunch breaks?"
+    mc "Oh, uh, I don't know I don't really take them."
+    "NewGuy" "Aren't they like, state mandated or something?"
+    mc "Yeah, but the scheduling system this company uses doesn't attribute time for it, so there's never really a chance."
+    "NewGuy" "Isn't that like, illegal?"
+    mc """
+    Yeah probably, but I guess I've just gotten used to it. Sometimes I can eat a candy bar, but normally
+    if I try, I get interrupted halfway through by some new customer walking in I need to take care of.
+    """
+    $ happiness -= 30
+    jump eveningChoice
+
+label dayDownsize:
+    "Manager" "Hey [mcName] just wanted to say it's been a pleasure working with you."
+    mc "Huh, what happened?"
+    "Manager" "I'm being let go, the company is restructuring."
+    mc "They say that, but every 'restructure' is just them trying to make each employee juggle even more."
+    "Manager" "Yeah I don't really envy you, good luck man."
+    "At a meeting later that day..."
+    "BigManager" "Today, we'll all find a way to learn from challenge and change."
+    "...challenge and change, right, that's a way to put letting go of some of our workforce for the bottom line."
+    $ happiness -= 25
+    jump eveningChoice
+
+label dayClopen:
+    "Manager" "Hey [mcName] we need you to open the shop tomorrow."
+    mc "But, I close tonight, that's only like eight hours total between shifts."
+    "Manager" "I know, but we don't have a choice."
+    "You spent the night toiling away, getting home and immediately going to bed."
+    $ happiness -= 15
+    window hide
+    scene bg bed
+    $ renpy.pause(0.8, hard=True)
+    $ dayCount += 1
+    jump workDay
+
 label daySkyrim:
     window show
-    scene bg wcdonalds
+    scene bg wcdonalds with Fade(0,1,2)
     show skyrim:
         zoom 0.4 xalign 0.8 yalign 0.5
     "Rolof" "Hey you, you're finally awake."
@@ -184,7 +284,7 @@ label dayRaise:
     "Manager" "Thank you all for attending this meeting, we are so excited to share all the new benefits with you!"
     "The meeting goes on for what feels like an age, with promises from the corporation you've heard many times before."
     "Each time, none of the benefits come through, all that comes through is more work."
-    $ happiness -= 10
+    $ happiness -= 15
     jump eveningChoice
 
 label dayTurkey:
@@ -225,7 +325,7 @@ label eve1P:
     mc "Luffy stretch longer"
     mc "Luffy stretch longest"
     mc "HOW LONG IS THIS"
-    $ happiness += 798
+    $ happiness += 18
     jump night
 
 label eveFriends:
@@ -270,15 +370,29 @@ label eveNet:
     jump night
 
 label eveReflect:
+    $ happiness -= 10
+    mc "I've been in this same crap job for way too long. I need out. This is just ridiculous."
+    $ happiness += 20
+    mc "Time to buckle down and actually figure out how to be a [dreamJob]!"
     scene bg grad
-    $ happiness += 100
-    mc "Just use 7zip what are you doing."
+    $ happiness = 9001
+    mc "...Wow."
     jump winrar
-    jump night
     
+label eveAdvise:
+    scene black
+    "You schedule time to see an expert about how you can achieve your goals."
+    $ happiness += 20
+    "Working together, you come up with a plan that actually even seems doable."
+    scene bg grad
+    $ happiness = 9001
+    mc "I did it! I'm a [dreamJob] now!"
+    jump winrar
+
 #End
 
 label winrar:
+    scene black
     seb """
     Oh, hello again [mcName]!
     """
@@ -298,10 +412,6 @@ label winrar:
         but I'm sure it's impressive in some way.
         """
     seb """
-    Regardless of how many days it took you to reach the end, what matters is you made it here.
-    You took the first step. And that's the hard part, just taking the first step.
-    """
-    seb """
     This game is for anybody who's stuck in a loop, a routine they feel trapped in. Stuck at some job
     they hate each day, spending each evening just trying to recharge those batteries to deal with
     the job another day.
@@ -314,16 +424,8 @@ label winrar:
     Never let yourself get stuck a routine you can't escape.
     """
     seb """
-    All you need to do, is take it one step at a time, keep moving towards your dreams.
+    Take it one step at a time, keep moving towards your dreams.
     You can be a great [dreamJob] if you put your mind to it.
-    """
-    seb """
-    So get out there, play some games, watch some movies, whatever makes you happy. But always be
-    taking steps towards where you want to be.
-    """
-    seb """
-    Don't just doomscroll on Instabook, liking any post that says how to be happy.
-    Actually go, become the person you want to be.
     """
     seb """
     So, now that this game was perhaps even shorter than you expected it to be, what are you going
