@@ -150,7 +150,7 @@ label start:
     show wall with move:
         ypos 0
 
-    seb "Much better"
+    seb "Much better."
 
     show wallbroke
     hide wall
@@ -161,6 +161,7 @@ label start:
 
     seb "...oh, I need to fix this wall now, huh."
 
+    window hide
     show wallfixing
     hide wallbroke
 
@@ -168,12 +169,16 @@ label start:
 
     show wallfixed
     hide wallfixing
-    show wallfixed with Fade(3,2,0)
+    show wallfixed 
     # $ renpy.pause(3, hard=True)
-    hide wallfixed
-    # $ renpy.pause(5, hard=True)
+    $ show_quick_menu = False
+    scene black with Fade(3,0,0)
+    $ show_quick_menu = False
+    $ renpy.pause(2, hard=True)
 
+    $ show_quick_menu = False
     show screen happy_overlay
+    $ show_quick_menu = False
     jump daySkyrim
 
 label workDay:
@@ -299,11 +304,15 @@ label dayClopen:
     jump workDay
 
 label daySkyrim:
-    window show
-    scene bg wcdonalds with Fade(0,0,2)
+    $ show_quick_menu = False
+    scene bg wcdonalds 
+    $ show_quick_menu = False
     show skyrim:
         zoom 0.4 xalign 0.8 yalign 0.5
-    "Rolof" "Hey you, you're finally awake.{fast}" with hpunch
+    with Fade(0,0,2)
+    window show
+    $ show_quick_menu = True
+    "Rolof" "Hey you, you're finally awake.{fast}"
     hide skyrim 
     show skyrim
     "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
@@ -394,8 +403,9 @@ label eveDate:
 
 label eveGym:
     scene bg gym
-    mc "your ligaments tore."
-    mc "sick gains!!!"
+    "You go to the gym."
+    "Your ligaments tear."
+    mc "Sick gains!!!"
     $ happiness += 15
     jump night
 

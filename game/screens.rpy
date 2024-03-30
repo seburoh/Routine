@@ -21,7 +21,10 @@ transform spinny:
     repeat
 
 screen happy_overlay:
-    text("Happiness: " + str(happiness))
+    vbox:
+        text "{color=#fff}Happiness: " + str(happiness)
+        xoffset 50
+        yoffset 20
 
 ################################################################################
 ## Styles
