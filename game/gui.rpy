@@ -50,7 +50,7 @@ define gui.muted_color = '#3d1466'
 define gui.hover_muted_color = '#5b1e99'
 
 ## The colors used for dialogue and menu choice text.
-define gui.text_color = '#ffffff'
+define gui.text_color = '#000'
 define gui.interface_text_color = '#ffffff'
 
 
@@ -78,7 +78,7 @@ define gui.interface_text_font = "ronysiswadi.ttf"
 define gui.text_size = 45
 
 ## The size of character names.
-define gui.name_text_size = 50
+define gui.name_text_size = 80
 
 ## The size of text in the game's user interface.
 define gui.interface_text_size = 40
@@ -116,7 +116,7 @@ define gui.textbox_yalign = 1.0
 ## The placement of the speaking character's name, relative to the textbox.
 ## These can be a whole number of pixels from the left or top, or 0.5 to center.
 define gui.name_xpos = 180
-define gui.name_ypos = 0
+define gui.name_ypos = -35
 
 ## The horizontal alignment of the character's name. This can be 0.0 for left-
 ## aligned, 0.5 for centered, and 1.0 for right-aligned.
