@@ -15,6 +15,8 @@ init python:
         elif event == "slow_done" or event == "end":
             renpy.music.stop(channel="blip", fadeout=.1)   
     mc = DynamicCharacter("mcName", what_prefix="\"", what_suffix="\"", callback=everyonevoice)
+    npc = DynamicCharacter("npcName", what_prefix="\"", what_suffix="\"", callback=everyonevoice)
+    npc2 = DynamicCharacter("npcName2", what_prefix="\"", what_suffix="\"", callback=everyonevoice)
     seb = Character("seb", callback=everyonevoice)
     car = Character("carmints", callback=everyonevoice)
 
@@ -33,7 +35,10 @@ init python:
         ["play games", "Game"],
         ["sleep", "Sleep"],
         ["hang with the homies", "Friends"],
-        ["play Last Fantasy 14", "FF14"]
+        ["play Last Fantasy 14", "FF14"],
+        ["scroll through xwitter", "Scroll"],
+        ["watch some Utube", "YT"],
+        ["buy a new game", "NG"]
     ]
     eventCount = len(eveningEvents) - 1
 
@@ -256,55 +261,63 @@ label night:
 # Day activities
 
 label dayBonus:
-    "Manager" "Hey guys, I have some bad news."
-    "Manager" "We were on excellent track to get a holiday bonus, the metrics we were giving corporate were above and beyond."
-    "Manager" "But unfortunately corporate decided against giving us any bonus, they moved the numbers needed at the last minute."
+    $ npcName = "Manager"
+    npc "Hey guys, I have some bad news."
+    npc "We were on excellent track to get a holiday bonus, the metrics we were giving corporate were above and beyond."
+    npc "But unfortunately corporate decided against giving us any bonus, they moved the numbers needed at the last minute."
     mc "How is that even allowed?"
-    "Manager" "Well, they're in charge. I know it's not much, but I have some pizza in the back. We'll try again next year!"
+    npc "Well, they're in charge. I know it's not much, but I have some pizza in the back. We'll try again next year!"
     $ happiness -= 20
     jump eveningChoice
 
 label dayTurnover:
-    "Coworker" "Hey [mcName] why do you never remember people's names?"
+    $ npcName = "Coworker"
+    npc "Hey [mcName] why do you never remember people's names?"
     mc "Too many coworkers come and go, I tend to only remember the ones who stick around."
-    "Coworker" "Wow, just how long have you been here to have seen that much turnover?"
+    npc "Wow, just how long have you been here to have seen that much turnover?"
     mc "...too long, I guess."
     $ happiness -= 5
     jump eveningChoice
 
 label daySecurity:
-    "Manager" "Per new rules from corporate, front door security can no longer confront shoplifters."
-    "Manager" "There have been incidents where angry shoplifters have pulled guns on security, or threatened legal action."
+    $ npcName = "Manager"
+    npc "Per new rules from corporate, front door security can no longer confront shoplifters."
+    npc "There have been incidents where angry shoplifters have pulled guns on security, or threatened legal action."
     mc "So now, the stuff in the store is all free?"
-    "Manager" "Now now, we all just need to be more vigilant!"
+    npc "Now now, we all just need to be more vigilant!"
     $ happiness -= 10
     jump eveningChoice
 
 label dayQuit:
+    $ npcName = "Manager"
+    $ npcName2 = "Coworker"
     "Walking in to work, there's an argument at the doors."
-    "Coworker" "You know what? Screw this, I'm out."
+    npc2 "You know what? Screw this, I'm out."
     "The coworker walks out of the building."
     mc "Wait, what just happened?"
-    "Manager" "He didn't agree with the new policies we're putting in place. Speaking of, do you have time to talk?"
+    npc "He didn't agree with the new policies we're putting in place. Speaking of, do you have time to talk?"
     mc "What is it this time?"
-    "Manager" "Nothing you haven't heard before, you're one of our veterans here after all!"
+    npc "Nothing you haven't heard before, you're one of our veterans here after all!"
     "Why do I even put up with this?"
     $ happiness -= 15
     jump eveningChoice
 
 label dayHours:
+    $ npcName = "Manager"
     "You notice your hours for the next week look lower."
     mc "Hey boss, I was wondering if I could pick up extra hours next week to meet rent."
-    "Manager" "Sorry, we only had so many hours to give, and I just didn't think you wanted to be here."
+    npc "Sorry, we only had so many hours to give, and I just didn't think you wanted to be here."
     mc "But what about my rent?"
-    "Manager" "Could try taking on a second job?"
+    npc "Could try taking on a second job?"
     $ happiness -= 20
     jump eveningChoice
 
 label dayAppointment:
-    "Customer" "Hey I need you to fix my phone."
+    $ npcName = "Irate Customer"
+    $ npcName2 = "Chill Customer"
+    npc "Hey I need you to fix my phone."
     mc "Sure, do you have an appointment with us today?"
-    "Customer" "No, I have a broken phone, fix it."
+    npc "No, I have a broken phone, fix it."
     mc "Sorry, but the custmers you see behind you are my appointments for the next hour or so."
     mc """
     I'll have to take care of them first, since they scheduled appointments.
@@ -313,39 +326,41 @@ label dayAppointment:
     If you'd like to wait I can try to fix your phone as soon as there's some available time,
     but I don't know when an appointment will no show.
     """
-    "Customer" "What about the time you're spending talking to me now? Huh?"
+    npc "What about the time you're spending talking to me now? Huh?"
     "You gesture behind you."
     mc "The customer behind me here is patiently waiting for me to continue working with them."
-    "Customer" "Fine, then I'll just leave my phone on the counter, and you can fix it when you're free!"
+    npc "Fine, then I'll just leave my phone on the counter, and you can fix it when you're free!"
     mc "We have a process we have to follow for legal reasons, if you leave your phone here I can't work on it."
-    "Customer" "So? What will you do with it then?"
+    npc "So? What will you do with it then?"
     mc "Report it to lost and found, and they discard those items when the shop closes for the night."
-    "Customer" "I'm going to find your manager!"
+    npc "I'm going to find your manager!"
     "They storm off."
-    "OtherCustomer" "Man he was a dick, sorry you have to deal with people like them."
+    npc2 "Man he was a dick, sorry you have to deal with people like them."
     mc "Thanks. It's all part of the job, now let me finish helping you out."
     $ happiness -= 5
     jump eveningChoice
 
 label dayRent:
+    $ npcName = "Coworker"
     "There's a stack of papers in the breakroom at work. 'How to manage your finances'."
     mc "Huh, I mean managing money is important."
-    "Coworker" "Oh [mcName], did you notice the best part though?"
+    npc "Oh [mcName], did you notice the best part though?"
     mc "Huh?"
-    "Coworker" "Look closer at the first section, where you calculate the money you earn."
+    npc "Look closer at the first section, where you calculate the money you earn."
     mc "Oh I guess they have a little explanation here...wait, are you serious?"
-    "Coworker" "Yeah it's kind of great"
+    npc "Yeah it's kind of great"
     "The form clearly stated at the beginning, that the company knew they were not paying a livable wage."
     "It then listed options for how to deal with it, by working two jobs or acquiring extra roommates."
     $ happiness -= 25
     jump eveningChoice
 
 label dayPlans:
-    "Friendo" "Hey man you down to go to a concert in a couple weeks?"
+    $ npcName = "Friendo"
+    npc "Hey man you down to go to a concert in a couple weeks?"
     mc "Sorry I can't, dunno if I'll have work."
-    "Friendo" "What do you mean?"
+    npc "What do you mean?"
     mc "I get my work hours for the week on like, the Friday before. So I never really know in advance when I work."
-    "Friendo" "Wow man that kinda sucks."
+    npc "Wow man that kinda sucks."
     mc "You get used to it I guess."
     $ happiness -= 10
     jump eveningChoice
@@ -357,22 +372,24 @@ label dayRaid:
     jump eveningChoice
 
 label dayPromotion:
-    "Manager" "Hey [mcName] I just want to say you're doing great, so we'd like to put some extra responsibility on you and see how you handle it!"
+    $ npcName = "Manager"
+    npc "Hey [mcName] I just want to say you're doing great, so we'd like to put some extra responsibility on you and see how you handle it!"
     mc "Oh uh, thanks. What did you have in mind?"
-    "Manager" "We want you to open the store, track some employees, that kind of thing."
+    npc "We want you to open the store, track some employees, that kind of thing."
     mc "Isn't that manager work? Am I getting a promotion?"
-    "Manager" "No, we're not going to promote anybody right now, but think about how this could impact your chances of promotions later!"
+    npc "No, we're not going to promote anybody right now, but think about how this could impact your chances of promotions later!"
     mc "So you want me to do a manager's workload, for normal pay?"
-    "Manager" "Yeah, for now, but think of the possibilities!"
+    npc "Yeah, for now, but think of the possibilities!"
     $ happiness -= 25
     jump eveningChoice
 
 label dayLunch:
-    "NewGuy" "Hey [mcName] question, when do we take lunch breaks?"
+    $ npcName = "New Guy"
+    npc "Hey [mcName] question, when do we take lunch breaks?"
     mc "Oh, uh, I don't know I don't really take them."
-    "NewGuy" "Aren't they like, state mandated or something?"
+    npc "Aren't they like, state mandated or something?"
     mc "Yeah, but the scheduling system this company uses doesn't attribute time for it, so there's never really a chance."
-    "NewGuy" "Isn't that like, illegal?"
+    npc "Isn't that like, illegal?"
     mc """
     Yeah probably, but I guess I've just gotten used to it. Sometimes I can eat a candy bar, but normally
     if I try, I get interrupted halfway through by some new customer walking in I need to take care of.
@@ -381,21 +398,24 @@ label dayLunch:
     jump eveningChoice
 
 label dayDownsize:
-    "Manager" "Hey [mcName] just wanted to say it's been a pleasure working with you."
+    $ npcName = "Manager"
+    $ npcName2 = "Upper Manager"
+    npc "Hey [mcName] just wanted to say it's been a pleasure working with you."
     mc "Huh, what happened?"
-    "Manager" "I'm being let go, the company is restructuring."
+    npc "I'm being let go, the company is restructuring."
     mc "They say that, but every 'restructure' is just them trying to make each employee juggle even more."
-    "Manager" "Yeah I don't really envy you, good luck man."
+    npc "Yeah I don't really envy you, good luck man."
     "At a meeting later that day..."
-    "BigManager" "Today, we'll all find a way to learn from challenge and change."
+    npc2 "Today, we'll all find a way to learn from challenge and change."
     "...challenge and change, right, that's a way to put letting go of some of our workforce for the bottom line."
     $ happiness -= 25
     jump eveningChoice
 
 label dayClopen:
-    "Manager" "Hey [mcName] we need you to open the shop tomorrow."
+    $ npcName = "Manager"
+    npc "Hey [mcName] we need you to open the shop tomorrow."
     mc "But, I close tonight, that's only like eight hours total between shifts."
-    "Manager" "I know, but we don't have a choice."
+    npc "I know, but we don't have a choice."
     "You spent the night toiling away, getting home and immediately going to bed."
     $ happiness -= 15
     $ happiness = max(happiness, 0)
@@ -412,34 +432,61 @@ label daySkyrim:
     with Fade(0,0,2)
     window show
     $ quick_menu = True
-    "Rolof" "Hey you, you're finally awake.{fast}"
+    $ npcName = "Rolof"
+    npc "Hey you, you're finally awake.{fast}"
     hide skyrim 
     show skyrim
-    "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
+    npc "You shorted me a WcNugget you asshole. I demand a refund."
     hide skyrim
     show skyrim:
         zoom 2.0 xalign 0.5 yalign 0.5
-    "Rolof" "WHERE IS YOUR MANAGER." with vpunch
+    npc "WHERE IS YOUR MANAGER." with vpunch
     $ happiness -= 20
     jump eveningChoice
 
 label dayRaise:
-    "Manager" "Thank you all for attending this meeting, we are so excited to share all the new benefits with you!"
+    $ npcName = "Manager"
+    npc "Thank you all for attending this meeting, we are so excited to share all the new benefits with you!"
     "The meeting goes on for what feels like an age, with promises from the corporation you've heard many times before."
     "Each time, none of the benefits come through, all that comes through is more work."
     $ happiness -= 15
     jump eveningChoice
 
 label dayTurkey:
+    $ npcName = "Customer"
     "You get to work Thanksgiving again, Black Friday is always such a pain."
-    "Customer" "Wow, you have to work on Thanksgiving? That sucks! Why do you even need to work today?"
+    npc "Wow, you have to work on Thanksgiving? That sucks! Why do you even need to work today?"
     mc "It's busy."
-    "Customer" "Wow true! Hey, do you have the doorbuster TV still in stock?"
+    npc "Wow true! Hey, do you have the doorbuster TV still in stock?"
     "Screams internally."
     $ happiness -= 25
     jump eveningChoice
 
 #Evening activities
+
+label eveScroll:
+    scene bg net
+    "You scroll through Xwitter, rexweeting uplifting posts about changing the world."
+    mc "Wow it's 2am already, where did all the time go?"
+    $ happiness += 1
+    jump night
+
+label eveYT:
+    scene bg net
+    "You spend some time watching Utube."
+    mc "This guy keeps saying to not worry about the details and just start making games, maybe I should try?"
+    mc "Eh, it's late, I'm tired, maybe tomorrow."
+    $ happiness += 5
+    jump night
+
+label eveNG:
+    scene bg net
+    "Scrolling through Steamy, it feels like no game really jumps out at you."
+    mc "No, no that one. Not that one either."
+    mc "I want a game where I can feel a real sense of achievement, feels like there's a hole I need to fill you know?"
+    "You end up going to bed having not bought any new game, nothing seemed to fit."
+    $ happiness += 5
+    jump night
 
 label eveFF14:
     scene bg game
@@ -457,11 +504,12 @@ label eveYuYu:
     jump night
 
 label eveHD2:
+    $ npcName = "Space Cowboy"
     scene bg game
     mc "Those bugs never knew what hit them! For Super Earth!"
-    "Bowfinger" "FOR SUPER EARTH"
+    npc "FOR SUPER EARTH"
     mc "Heck yeah man! You down for another game?"
-    "Bowfinger" "Nah I gotta jet, gotta prep for a meeting tomorrow."
+    npc "Nah I gotta jet, gotta prep for a meeting tomorrow."
     mc "Alright man, you have a good one."
     "You continued to play for another few hours, many bugs died."
     $ happiness += 10
