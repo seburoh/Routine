@@ -436,8 +436,10 @@ label winrar:
     if dayCount == 1:
         seb """
         Wow first day? You are full of agency, nice! Maybe you're a person who's already reached
-        their goals? Or just good at having their dream in mind? You didn't get stuck in the
-        routine at all, I wonder if I should feel bad about spending so much time on writing
+        their goals? Or just good at having their dream in mind? 
+        """
+        seb """
+        You didn't get stuck in the routine at all, I wonder if I should feel bad about spending so much time on writing
         so many silly little diversions now.
         """
     else:
