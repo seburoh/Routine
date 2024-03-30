@@ -5,6 +5,7 @@ define config.mouse = {
 init python:
     config.keymap['game_menu'].remove('K_ESCAPE')
     config.keymap['game_menu'].remove('mouseup_3')
+    import os
     config.debug_sound = False
     renpy.music.register_channel("blip", mixer= "voice")
     def everyonevoice(event, interact=True, **kwargs):
@@ -18,7 +19,6 @@ init python:
     seb = Character("seb", callback=everyonevoice)
     car = Character("carmints", callback=everyonevoice)
 
-    import os
     preferences.text_cps = 50  
     # config.all_character_callbacks = everyonevoice
     mcName = os.environ.get("USERNAME") or "You"
@@ -214,25 +214,20 @@ label eveningChoice:
         choices.append(ran)
 
         menuChoices = [
-            (eveningEvents[choices[0]][0], choices[0]),
-            (eveningEvents[choices[1]][0], choices[1]),
-            (eveningEvents[choices[2]][0], choices[2]),
-            (eveningEvents[choices[3]][0], choices[3])
+            (eveningEvents[choices[0]][0], eveningEvents[choices[0]][1]),
+            (eveningEvents[choices[1]][0], eveningEvents[choices[1]][1]),
+            (eveningEvents[choices[2]][0], eveningEvents[choices[2]][1]),
+            (eveningEvents[choices[3]][0], eveningEvents[choices[3]][1])
         ]
 
         if dayCount > 4:
             ran = renpy.random.randint(0, winCount)
-            windex = renpy.random.randint(0, 3)
-            menuChoices[windex] = (winEvents[ran][0], (ran * -1) - 1)
+            menuChoices[renpy.random.randint(0, 3)] = (winEvents[ran][0], winEvents[ran][1])
 
         narrator("Choose your fate my dude", interact=False)
         result = renpy.display_menu(menuChoices)
 
-        if result < 0:
-            result = (result + 1) * -1
-            renpy.jump(("eve" + winEvents[result][1]))
-        else:
-            renpy.jump(("eve" + eveningEvents[result][1]))
+        renpy.jump(("eve" + result))
 
     #failsafe
     jump night
