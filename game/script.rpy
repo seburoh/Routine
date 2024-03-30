@@ -33,7 +33,8 @@ init python:
         "Turkey",
         "Clopen",
         "Downsize",
-        "Lunch"
+        "Lunch",
+        "Promotion"
     ]
     dayEventsLen = len(dayEvents) - 1
 
@@ -162,6 +163,7 @@ label workDay:
 
 label eveningChoice:
     scene bg bed with None
+    $ happiness = max(happiness, 0)
 
     mc """
     Man I'm fried, time to kick back and relax.
@@ -224,6 +226,17 @@ label night:
 
 # Day activities
 
+label dayPromotion:
+    "Manager" "Hey [mcName] I just want to say you're doing great, so we'd like to put some extra responsibility on you and see how you handle it!"
+    mc "Oh uh, thanks. What did you have in mind?"
+    "Manager" "We want you to open the store, track some employees, that kind of thing."
+    mc "Isn't that manager work? Am I getting a promotion?"
+    "Manager" "No, we're not going to promote anybody right now, but think about how this could impact your chances of promotions later!"
+    mc "So you want me to do a manager's workload, for normal pay?"
+    "Manager" "Yeah, for now, but think of the possibilities!"
+    $ happiness -= 25
+    jump eveningChoice
+
 label dayLunch:
     "NewGuy" "Hey [mcName] question, when do we take lunch breaks?"
     mc "Oh, uh, I don't know I don't really take them."
@@ -255,6 +268,7 @@ label dayClopen:
     "Manager" "I know, but we don't have a choice."
     "You spent the night toiling away, getting home and immediately going to bed."
     $ happiness -= 15
+    $ happiness = max(happiness, 0)
     window hide
     scene bg bed
     $ renpy.pause(0.8, hard=True)
@@ -263,7 +277,7 @@ label dayClopen:
 
 label daySkyrim:
     window show
-    scene bg wcdonalds with Fade(0,1,2)
+    scene bg wcdonalds with Fade(0,0,2)
     show skyrim:
         zoom 0.4 xalign 0.8 yalign 0.5
     "Rolof" "Hey you, you're finally awake."
@@ -274,10 +288,7 @@ label daySkyrim:
     show skyrim:
         zoom 2.0 xalign 0.5 yalign 0.5
     "Rolof" "WHERE IS YOUR MANAGER." with vpunch
-
     $ happiness -= 20
-    $ happiness = max(happiness, 0)
-
     jump eveningChoice
 
 label dayRaise:
