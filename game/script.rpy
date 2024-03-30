@@ -2,8 +2,9 @@
 define config.mouse = {
     "default" : [("gui/mouse_default.png", 16, 0)]
     }
-
 init python:
+    config.keymap['game_menu'].remove('K_ESCAPE')
+    config.keymap['game_menu'].remove('mouseup_3')
     config.debug_sound = False
     renpy.music.register_channel("blip", mixer= "voice")
     def everyonevoice(event, interact=True, **kwargs):
@@ -168,6 +169,9 @@ label start:
     show wallfixed
     hide wallfixing
     show wallfixed with Fade(3,2,0)
+    # $ renpy.pause(3, hard=True)
+    hide wallfixed
+    # $ renpy.pause(5, hard=True)
 
     show screen happy_overlay
     jump daySkyrim
@@ -181,8 +185,10 @@ label workDay:
     jump eveningChoice
 
 label eveningChoice:
-    play music "choices.ogg"
-    scene bg bed with None
+    scene black with dissolve
+    play music "choices.ogg" fadein 2.0
+    "After a long day at work, you return home, wherever that may be."
+    scene bg bed with dissolve
     $ happiness = max(happiness, 0)
 
     mc """
