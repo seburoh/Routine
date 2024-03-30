@@ -129,7 +129,7 @@ screen say(who, what):
             window:
                 id "namebox"
                 style "namebox"
-                text who id "who"
+                text who id "who" outlines [ (7, "#000") ]
 
         text what id "what"
 

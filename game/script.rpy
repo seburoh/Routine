@@ -1,9 +1,25 @@
-﻿define mc = DynamicCharacter("mcName")
-define seb = Character("seb")
-define car = Character("carmints")
+﻿###POINTER###
+define config.mouse = {
+    "default" : [("gui/mouse_default.png", 16, 0)]
+    }
 
 init python:
+    config.debug_sound = False
+    renpy.music.register_channel("blip", mixer= "voice")
+    def everyonevoice(event, interact=True, **kwargs):
+        if not interact:
+                return
+        if event == "show":
+            renpy.music.play("blippies.ogg", channel="blip", loop=True)
+        elif event == "slow_done" or event == "end":
+            renpy.music.stop(channel="blip", fadeout=.1)   
+    mc = DynamicCharacter("mcName", what_prefix="\"", what_suffix="\"", callback=everyonevoice)
+    seb = Character("seb", callback=everyonevoice)
+    car = Character("carmints", callback=everyonevoice)
+
     import os
+    preferences.text_cps = 50  
+    # config.all_character_callbacks = everyonevoice
     mcName = os.environ.get("USERNAME") or "You"
     happiness = 50
     dayCount = 1
@@ -32,7 +48,9 @@ init python:
 
 # The game starts here.
 label start:
+    play music "choices.ogg"
     scene black
+
     # scene loopspin
     seb "Hi."
 
@@ -99,6 +117,15 @@ label start:
         $ dreamJob = renpy.input("Don't let your dreams be memes", length=30).strip()
 
     seb "Pokemon reference gooooo."
+    # $quick_menu = False
+    # $quick_menu = False
+    # scene white with Dissolve(1.5)
+    # $quick_menu = False
+    stop music fadeout 1.5
+    # $ renpy.pause(1.0, hard=True)
+    # window hide
+    # $quick_menu = True
+        
     show screen happy_overlay
 
     jump daySkyrim
@@ -112,6 +139,7 @@ label workDay:
     jump eveningChoice
 
 label eveningChoice:
+    play music "choices.ogg"
     scene bg bed with None
     python:
         choices = [renpy.random.randint(0, eventCount)]
@@ -151,6 +179,8 @@ label night:
     window hide
     # scene black
     # $ renpy.pause(0.1, hard=True)
+    stop music
+    play sound "pillowhit1.ogg"
     scene bg bed
     $ renpy.pause(0.8, hard=True)
     # scene black
@@ -166,7 +196,7 @@ label daySkyrim:
     scene bg wcdonalds
     show skyrim:
         zoom 0.4 xalign 0.8 yalign 0.5
-    "Rolof" "Hey you, you're finally awake."
+    "Rolof" "Hey you, you're finally awake.{fast}" with hpunch
     hide skyrim 
     show skyrim
     "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
@@ -190,7 +220,7 @@ label dayRaise:
 label dayTurkey:
     "You get to work Thanksgiving again, Black Friday is always such a pain."
     "Customer" "Wow, you have to work on Thanksgiving? That sucks! Why do you even need to work today?"
-    mc "It's busy"
+    mc "It's busy."
     "Customer" "Wow true! Hey, do you have the doorbuster TV still in stock?"
     "Screams internally."
     $ happiness -= 25
@@ -225,6 +255,8 @@ label eve1P:
     mc "Luffy stretch longer"
     mc "Luffy stretch longest"
     mc "HOW LONG IS THIS"
+    "You finish the entirety of One Piece's >1000 episode series and movies."
+    mc "... It wasn't long enough. What am I supposed to do now?"
     $ happiness += 798
     jump night
 
