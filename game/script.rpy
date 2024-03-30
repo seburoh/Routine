@@ -60,7 +60,6 @@ label start:
     play music "choices.ogg"
     scene black
 
-    # scene loopspin
     seb "Hi."
 
     seb """
@@ -124,17 +123,8 @@ label start:
         """
         $ dreamJob = renpy.input("Don't let your dreams be memes", length=30).strip()
 
-    seb "Pokemon reference gooooo."
-    # $quick_menu = False
-    # $quick_menu = False
-    # scene white with Dissolve(1.5)
-    # $quick_menu = False
     stop music fadeout 1.5
-    # $ renpy.pause(1.0, hard=True)
-    # window hide
-    # $quick_menu = True
         
-    show screen happy_overlay
     seb "A [dreamJob] huh? That sounds pretty cool. I bet you'd be pretty good at it too."
 
     $ dreamLower = dreamJob.lower()
