@@ -19,6 +19,9 @@ define config.check_conflicting_properties = True
 ## GUI Configuration Variables
 ################################################################################
 
+define config.mouse = {
+    "default" : [("gui/mouse_default.png", 16, 0)]
+    }
 
 ## Colors ######################################################################
 ##

@@ -1,7 +1,4 @@
-﻿define config.mouse = {
-    "default" : [("gui/mouse_default.png", 16, 0)]
-    }
-init python:
+﻿init python:
     import os
     config.keymap['game_menu'].remove('K_ESCAPE')
     config.keymap['game_menu'].remove('mouseup_3')
@@ -142,8 +139,6 @@ label start:
         Hey now, take this seriously. Or type in vtuber, whatever floats your boat.
         """
         $ dreamJob = renpy.input("Don't let your dreams be memes", length=30).strip()
-
-    stop music fadeout 1.5
         
     seb "A [dreamJob] huh? That sounds pretty cool. I bet you'd be pretty good at it too."
 
@@ -152,6 +147,8 @@ label start:
         seb "The next KSon maybe?"
 
     seb "Well that's enough talking out of me, maybe I'll see you again sometime."
+
+    stop music fadeout 1.5
 
     show wall:
         ypos 1200
@@ -196,9 +193,10 @@ label start:
 
 label workDay:
     scene black
+    window show
     $ choice = renpy.random.randint(0, dayEventsLen)
     $ renpy.jump(("day" + dayEvents[choice]))
-
+    window show
     #failsafe
     jump eveningChoice
 
@@ -277,7 +275,7 @@ label dayTurnover:
     npc "Hey [mcName] why do you never remember people's names?"
     mc "Too many coworkers come and go, I tend to only remember the ones who stick around."
     npc "Wow, just how long have you been here to have seen that much turnover?"
-    mc "...too long, I guess."
+    mc ". . . too long, I guess."
     $ happiness -= 5
     jump eveningChoice
 
@@ -344,13 +342,13 @@ label dayAppointment:
 
 label dayRent:
     $ npcName = "Coworker"
-    "There's a stack of papers in the breakroom at work. 'How to manage your finances'."
+    "There's a stack of papers in the breakroom at work. 'How to Manage Your Finances'."
     mc "Huh, I mean managing money is important."
     npc "Oh [mcName], did you notice the best part though?"
     mc "Huh?"
     npc "Look closer at the first section, where you calculate the money you earn."
-    mc "Oh I guess they have a little explanation here...wait, are you serious?"
-    npc "Yeah it's kind of great"
+    mc "Oh I guess they have a little explanation here . . . wait, are you serious??"
+    npc "Yeah, it's kind of great."
     "The form clearly stated at the beginning, that the company knew they were not paying a livable wage."
     "It then listed options for how to deal with it, by working two jobs or acquiring extra roommates."
     $ happiness -= 25
@@ -407,9 +405,9 @@ label dayDownsize:
     npc "I'm being let go, the company is restructuring."
     mc "They say that, but every 'restructure' is just them trying to make each employee juggle even more."
     npc "Yeah I don't really envy you, good luck man."
-    "At a meeting later that day..."
+    "At a meeting later that day . . ."
     npc2 "Today, we'll all find a way to learn from challenge and change."
-    "...challenge and change, right, that's a way to put letting go of some of our workforce for the bottom line."
+    ". . . challenge and change, right, that's a way to put letting go of some of our workforce for the bottom line."
     $ happiness -= 25
     jump eveningChoice
 
@@ -421,6 +419,7 @@ label dayClopen:
     "You spent the night toiling away, getting home and immediately going to bed."
     $ happiness -= 15
     $ happiness = max(happiness, 0)
+    play sound "pillowhit2.ogg"
     window hide
     scene bg bed
     $ renpy.pause(0.8, hard=True)
@@ -500,7 +499,7 @@ label eveFF14:
 
 label eveYuYu:
     scene bg watch
-    mc "Man Yoske is so cool."
+    mc "Man Yoyoske is so cool."
     mc "He's so lucky to be in an anime where anything can happen, how am I supposed to ever compete with that?"
     $ happiness += 21
     jump night
@@ -531,7 +530,7 @@ label eve1P:
     mc "Loffy stretch longest"
     mc "HOW LONG IS THIS"
     "You finish the entirety of One Piece's >1000 episode series and movies."
-    mc "... It wasn't long enough. What am I supposed to do now?"
+    mc ". . . It wasn't long enough. What am I supposed to do now?"
     $ happiness += 18
     jump night
 
@@ -544,14 +543,23 @@ label eveFriends:
 
 label eveSleep:
     scene bg bed
-    mc "zzz good nap"
+    mc "Zzzz . . ."
+    "You feel slightly rested after a hard day."
+    mc "Good nap."
+    mc ". . . Maybe too long of a nap."
+    mc ". . ."
+    mc "That nap took up most of my day."
+    mc "I napped way too long."
+    mc "It's bedtime now."
+    mc ". . ."
+    mc "Dang it, that was a long nap--"
     $ happiness += 10
     jump night
 
 label eveGame:
     scene bg game
-    mc "you went up 100 levels."
-    mc "sick gains!!!"
+    "You went up 100 levels."
+    mc "Sick gains!!!"
     $ happiness += 15
     jump night
 
@@ -573,7 +581,7 @@ label eveGym:
 
 label eveNet:
     scene bg net
-    mc "what a cool net."
+    mc "What a cool invention."
     $ happiness += 15
     jump night
 
@@ -584,7 +592,7 @@ label eveReflect:
     mc "Time to buckle down and actually figure out how to be a [dreamJob]!"
     scene bg grad
     $ happiness = 9001
-    mc "...Wow."
+    mc ". . . Wow."
     jump winrar
     
 label eveAdvise:
@@ -645,121 +653,6 @@ label winrar:
     """
     seb """
     Go, be awesome.
-    """
-    jump gameEnd
-
-
-# The game starts here.
-label originalStart:
-    scene bg room
-    show eileen happy
-
-    seb "Hi."
-
-    seb """
-    My partner and I made this game over the course of three days.
-    We wanted to submit to NaNoRenO, but only found the time at the very end of the month.
-    """
-
-    seb """
-    We challenged ourselves to try and create something within the remaining days, finding time
-    after work and the like. This is a short title, but we hope you enjoy!
-    """
-
-    seb """
-    Before we put up the fourth wall, I have one question for you.
-    """
-
-    menu:
-        "Are you at your destination in life?"
-
-        "Yes":
-            seb """
-            That is so awesome to hear! I'm glad you've found a place you feel you belong.
-            When playing this game though, you'll have to play a bit of pretend. Put yourself
-            in the shoes of somebody who's not there yet. Be that a you of the past, or a friend
-            you wish better for. This game is about that journey.
-            """
-        "No":
-            seb """
-            I may just be a faceless stranger on the internet, but I believe in you. You can accomplish
-            great things if you put your mind to it. If you don't already believe that,
-            maybe by the end of this little game you'll believe the same, even if just a little.
-            """
-
-    #Swap from here on.
-    seb """
-    I'm getting ahead of myself though, it's nice to meet you, what's your name?
-    """
-
-    $ playerName = renpy.input("Name go here", length=30).strip()
-    if playerName != "":
-        $ mcName = playerName
-
-    seb """
-    So your name is [mcName] huh? Nice to meet you.
-    """
-
-    seb """
-    One more question, what's your dream job?
-    """
-
-    $ dreamJob = renpy.input("Don't let your dreams be memes", length=30).strip()
-    while dreamJob == "":
-        seb """
-        Hey now, take this seriously. Or type in vtuber, whatever floats your boat.
-        """
-        $ dreamJob = renpy.input("Don't let your dreams be memes", length=30).strip()
-
-    seb "Pokemon reference gooooo."
-    show screen happy_overlay
-
-    jump workDayOriginal
-
-label workDayOriginal:
-    scene skyrim
-    "Rolof" "Hey you, you're finally awake."
-    "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
-    "Rolof" "WHERE IS YOUR MANAGER."
-
-    $ happiness -= 20
-    $ happiness = max(happiness, 0)
-
-    jump eveningChoiceOriginal
-
-label eveningChoiceOriginal:
-    scene homelife
-
-    mc """
-    Man I'm fried.
-    """
-
-    menu:
-        "Choose your fate my dude"
-
-        "It is wednesday":
-            seb """
-            Don't lie to me.
-            """
-            $ happiness += 10
-        "My dude":
-            seb """
-            My duuuuude.
-            """
-            $ happiness += 15
-        "winrar":
-            seb """
-            Just use 7zip what are you doing.
-            """
-            jump winrarOriginal
-
-    jump workDayOriginal
-
-label winrarOriginal:
-    seb """
-    Now you're a hero. You've beat the whole damn game. We're happy you've made it, but
-    how are you going to spend the rest of this day? Maybe watch a video, maybe press
-    refresh and start again.
     """
     jump gameEnd
 
