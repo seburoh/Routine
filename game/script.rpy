@@ -2,9 +2,9 @@
     "default" : [("gui/mouse_default.png", 16, 0)]
     }
 init python:
+    import os
     config.keymap['game_menu'].remove('K_ESCAPE')
     config.keymap['game_menu'].remove('mouseup_3')
-    import os
     config.debug_sound = False
     renpy.music.register_channel("blip", mixer= "voice")
     def everyonevoice(event, interact=True, **kwargs):
@@ -126,7 +126,10 @@ label start:
     So your name is [mcName] huh? Nice to meet you.
     """
 
-    if playerName == "totaka":
+    $ nameCheck = playerName.lower()
+    if nameCheck == "totaka":
+        stop music fadeout 1.5
+        play music "totakasong.flac" fadein 1.5
         jump originalStart
 
     seb """
@@ -184,8 +187,7 @@ label start:
     $ renpy.pause(0.8, hard=True)
 
     show wallfixed
-    hide wallfixing
-    show wallfixed 
+    hide wallfixing 
     $ quick_menu = False
     scene black with Fade(3,0,0)
     $ renpy.pause(2, hard=True)
@@ -201,11 +203,11 @@ label workDay:
     jump eveningChoice
 
 label eveningChoice:
+    $ happiness = max(happiness, 0)
     scene black with dissolve
     play music "choices.ogg" fadein 2.0
     "After a long day at work, you return home, wherever that may be."
     scene bg bed with dissolve
-    $ happiness = max(happiness, 0)
 
     mc """
     Man I'm fried, time to kick back and relax.
