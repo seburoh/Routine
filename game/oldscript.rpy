@@ -66,7 +66,7 @@ label originalStart:
     jump workDayOriginal
 
 label workDayOriginal:
-    scene skyrim
+    scene skyrimorig
     "Rolof" "Hey you, you're finally awake."
     "Rolof" "You shorted me a WcNugget you asshole. I demand a refund."
     "Rolof" "WHERE IS YOUR MANAGER."
