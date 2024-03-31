@@ -101,8 +101,8 @@ label start:
             When playing this game though, you'll have to play a bit of pretend.
             """
             seb """
-            Put yourself in the shoes of somebody who's not there yet. Be that a you of the past, 
-            or a friend you wish better for. This game is about that journey.
+            Put yourself in the shoes of somebody who's not there yet, be that a you of the past, 
+            or a friend you wish better for.{w} This game is about that journey.
             """
         "No":
             seb """
@@ -175,7 +175,7 @@ label start:
 
     seb "Never be afraid to try something new! You never know what you may find!"
 
-    seb "...oh, I need to fix this wall now, huh."
+    seb ". . . oh, I need to fix this wall now, huh."
 
     window hide
     show wallfixing
