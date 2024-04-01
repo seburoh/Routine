@@ -33,6 +33,11 @@ define gui.about = _p("""
 Made over the course of three days by two people.
 
 Whatever it is you're hoping to achieve. You. Can. Do. It.
+
+Art, Programming, and Story by {a=https://seburoh.itch.io/}seburoh{/a} and {a=https://carmints.itch.io/}Carmints{/a}.
+
+Music 
+"Jazz Bossa Nova" by {a=https://lolurio.itch.io/}loluriolibrary{/a}.
 """)
 
 
@@ -211,4 +216,4 @@ init python:
 ## The username and project name associated with an itch.io project, separated
 ## by a slash.
 
-define build.itch_project = "seburoh/routine"
+define build.itch_project = "carmints/routine"

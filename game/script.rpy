@@ -68,7 +68,7 @@
 
 # The game starts here.
 label start:
-    play music "choices.ogg"
+    play music "audio/choices.ogg"
     scene black
 
     seb "Hi."
@@ -99,7 +99,7 @@ label start:
             """
             seb """
             Put yourself in the shoes of somebody who's not there yet, be that a you of the past, 
-            or a friend you wish better for.{w} This game is about that journey.
+            or a friend you wish better for. This game is about that journey.
             """
         "No":
             seb """
@@ -126,7 +126,7 @@ label start:
     $ nameCheck = playerName.lower()
     if nameCheck == "totaka":
         stop music fadeout 1.5
-        play music "totakasong.flac" fadein 1.5
+        play music "audio/totakasong.flac" fadein 1.5
         jump originalStart
 
     seb """
@@ -203,7 +203,7 @@ label workDay:
 label eveningChoice:
     $ happiness = max(happiness, 0)
     scene black with dissolve
-    play music "choices.ogg" fadein 2.0
+    play music "audio/choices.ogg" fadein 2.0
     "After a long day at work, you return home, wherever that may be."
     scene bg bed with dissolve
 
@@ -429,12 +429,12 @@ label dayClopen:
 label daySkyrim:
     scene bg wcdonalds 
     show skyrim:
-        zoom 0.4 xalign 0.8 yalign 0.5
+        zoom 0.45 xalign 0.85 yalign 0.5
     with Fade(0,0,2)
     window show
     $ quick_menu = True
     $ npcName = "Rolof"
-    npc "Hey you, you're finally awake.{fast}"
+    npc "Hey you, you're finally awake."
     hide skyrim 
     show skyrim
     npc "You shorted me a WcNugget you asshole. I demand a refund."
@@ -491,8 +491,8 @@ label eveNG:
 
 label eveFF14:
     scene bg game
-    mc "Time to do dailies in the critically acclaimed MMO Last Fantasy 14"
-    "You spend some time doing daily quests"
+    mc "Time to do dailies in the critically acclaimed MMO Last Fantasy 14."
+    "You spend some time doing daily quests."
     mc "Feels like I'm making good progress. Always feels nice to make headway towards a goal."
     $ happiness += 22
     jump night
